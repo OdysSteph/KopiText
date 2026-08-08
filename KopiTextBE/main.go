@@ -3,8 +3,9 @@ package main
 import (
 	"math/rand"
 	"net/http"
-	"github.com/gin-gonic/gin"
+
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 type Content struct {
@@ -49,6 +50,19 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{"result": val})
+	})
+
+	router.GET("/api/texts", func(c *gin.Context){
+		if len(dummyDB) < 1 {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Array is empty!"})
+			return
+		}
+		var keys []string
+
+		for id := range dummyDB {
+			keys = append(keys, id)
+		}
+		c.JSON(http.StatusOK, gin.H{"result": keys})
 	})
 
 	router.Run(":8080")
