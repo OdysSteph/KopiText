@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
 	"math/rand"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 type Content struct {
@@ -24,7 +26,11 @@ func generateId() string {
 }
 
 func main() {
-	router := gin.Default();
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found or error loading .env")
+	}
+
+	router := gin.Default()
 
 	router.Use((cors.Default()))
 
