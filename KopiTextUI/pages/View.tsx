@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Copy } from 'lucide-react';
 
+const URL = import.meta.env.VITE_API_BACKEND_URL;
+
 interface ViewResponse {
   result: string;
 }
@@ -26,7 +28,7 @@ export default function View() {
   useEffect(() => {
     const fetchText = async (): Promise<void> => {
       try {
-        const response = await fetch(`http://localhost:8080/api/texts/${id}`);
+        const response = await fetch(`${URL}/api/texts/${id}`);
         if (response.status === 404) {
           setText('Teks tidak ditemukan atau sudah kadaluarsa.');
           return;

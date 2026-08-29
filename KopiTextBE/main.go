@@ -1,10 +1,13 @@
 package main
 
 import (
+	"log"
 	"math/rand"
 	"net/http"
-	"github.com/gin-gonic/gin"
+
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 type Content struct {
@@ -23,7 +26,11 @@ func generateId() string {
 }
 
 func main() {
-	router := gin.Default();
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found or error loading .env")
+	}
+
+	router := gin.Default()
 
 	router.Use((cors.Default()))
 
@@ -49,6 +56,19 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{"result": val})
+	})
+
+	router.GET("/api/texts", func(c *gin.Context){
+		if len(dummyDB) < 1 {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Array is empty!"})
+			return
+		}
+		var keys []string
+
+		for id := range dummyDB {
+			keys = append(keys, id)
+		}
+		c.JSON(http.StatusOK, gin.H{"result": keys})
 	})
 
 	router.Run(":8080")
