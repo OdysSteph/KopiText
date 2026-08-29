@@ -6,6 +6,8 @@ interface ViewResponse {
   result: string;
 }
 
+const URL = import.meta.env.VITE_API_BACKEND_URL;
+
 export default function View() {
   const { id } = useParams<{ id: string }>();
   const [text, setText] = useState<string>('Loading...');
@@ -26,7 +28,7 @@ export default function View() {
   useEffect(() => {
     const fetchText = async (): Promise<void> => {
       try {
-        const response = await fetch(`http://localhost:8080/api/texts/${id}`);
+        const response = await fetch(`${URL}/api/texts/${id}`);
         if (response.status === 404) {
           setText('Teks tidak ditemukan atau sudah kadaluarsa.');
           return;
