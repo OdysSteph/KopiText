@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Copy } from 'lucide-react';
 
+const URL = import.meta.env.VITE_API_BACKEND_URL;
+
 interface ViewResponse {
   result: string;
 }
-
-const URL = import.meta.env.VITE_API_BACKEND_URL;
 
 export default function View() {
   const { id } = useParams<{ id: string }>();
